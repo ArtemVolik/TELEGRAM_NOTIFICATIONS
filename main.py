@@ -1,6 +1,5 @@
 import os
 import time
-from pprint import pprint
 import requests
 import telegram
 from dotenv import load_dotenv
