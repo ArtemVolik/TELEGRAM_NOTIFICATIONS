@@ -23,7 +23,6 @@ def main():
             response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params)
             response.raise_for_status()
         except (requests.exceptions.ReadTimeout, ConnectionError):
-            time.sleep(3)
             continue
         response = response.json()
         new_attempts = response['new_attempts'][0]
