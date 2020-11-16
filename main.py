@@ -23,8 +23,10 @@ def main():
         try:
             response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params, timeout=91)
             response.raise_for_status()
-        except (requests.exceptions.ReadTimeout, ConnectionError):
-            time.sleep(3)
+        except ConnectionError:
+            time.sleep(30)
+            continue
+        except requests.exceptions.ReadTimeout:
             continue
         response = response.json()
         if response['status'] == 'timeout':
