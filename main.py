@@ -2,21 +2,18 @@ import os
 import time
 import requests
 import telegram
-from dotenv import load_dotenv
-
 
 
 def main():
-    load_dotenv()
-    devman_token = os.getenv('DEVMAN_TOKEN')
+    devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
     }
     params = {
         'timestamp': ''
     }
-    telegram_token = os.getenv('TELEGRAM_TOKEN')
-    chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    telegram_token = os.environ['TELEGRAM_TOKEN']
+    chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = telegram.Bot(token=telegram_token)
 
     while True:
