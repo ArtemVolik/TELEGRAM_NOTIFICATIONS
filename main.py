@@ -24,6 +24,9 @@ class MyBot(telegram.Bot):
 
 
 def main():
+    logger = logging.getLogger("Bot Logger")
+    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
+    logger.setLevel(logging.INFO)
     devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
@@ -34,11 +37,6 @@ def main():
     telegram_token = os.environ['TELEGRAM_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = MyBot(token=telegram_token)
-
-    logger = logging.getLogger("Bot Logger")
-    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
-    logger.setLevel(logging.INFO)
-
     logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
 
     try:
