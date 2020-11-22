@@ -33,7 +33,6 @@ def main():
     logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
     logger.info('Бот запущен')
 
-
     while True:
         try:
             response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params, timeout=91)
