@@ -4,7 +4,25 @@ import requests
 import telegram
 import logging
 
+
+class TelegramBotLogsHandler(logging.Handler, telegram.Bot):
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.send_message(chat_id=os.environ['TELEGRAM_CHAT_ID'], text=f'{log_entry}')
+
+
+class MyBot(telegram.Bot, logging):
+    def __init__(self, token):
+        super().__init__(token, base_url=None, request=None, private_key=None, private_key_password=None, defaults=None)
+        self.logging("Бот запущен")
+
+
 def main():
+    logger = logging.getLogger("Bot Logger")
+    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
+    logger.setLevel(logging.INFO)
+    logger.addHandler(TelegramBotLogsHandler())
+
     devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
@@ -14,8 +32,12 @@ def main():
     }
     telegram_token = os.environ['TELEGRAM_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
-    bot = telegram.Bot(token=telegram_token)
-    logging.warning('Бот запущен')
+    bot = MyBot(token=telegram_token)
+
+    try:
+        0 / 0
+    except Exception:
+        logger.exception()
 
     while True:
         try:
