@@ -6,23 +6,23 @@ import logging
 
 
 class TelegramBotLogsHandler(logging.Handler):
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
     def emit(self, record):
         log_entry = self.format(record)
-        self.telegram.Bot.send_message(chat_id=os.environ['TELEGRAM_CHAT_ID'], text=f'{log_entry}')
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 class MyBot(telegram.Bot):
-    def __init__(self, token):
-        super().__init__(token, base_url=None, request=None, private_key=None, private_key_password=None, defaults=None)
+    def __init__(self):
+        super().__init__()
         logging.info("Бот запущен")
 
 
 def main():
-    logger = logging.getLogger("Bot Logger")
-    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
-    logger.setLevel(logging.INFO)
-    logger.addHandler(TelegramBotLogsHandler())
-
     devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
@@ -33,6 +33,12 @@ def main():
     telegram_token = os.environ['TELEGRAM_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = MyBot(token=telegram_token)
+
+    logger = logging.getLogger("Bot Logger")
+    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
+    logger.setLevel(logging.INFO)
+
+    logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
 
     try:
         0 / 0
