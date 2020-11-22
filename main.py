@@ -2,7 +2,7 @@ import os
 import time
 import requests
 import telegram
-
+import logging
 
 def main():
     devman_token = os.environ['DEVMAN_TOKEN']
@@ -15,6 +15,7 @@ def main():
     telegram_token = os.environ['TELEGRAM_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = telegram.Bot(token=telegram_token)
+    logging.info('Бот запущен')
 
     while True:
         try:
