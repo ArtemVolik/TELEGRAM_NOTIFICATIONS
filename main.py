@@ -8,7 +8,7 @@ import logging
 class TelegramBotLogsHandler(logging.Handler):
     def emit(self, record):
         log_entry = self.format(record)
-        telegram.Bot.send_message(chat_id=os.environ['TELEGRAM_CHAT_ID'], text=f'{log_entry}')
+        self.telegram.Bot.send_message(chat_id=os.environ['TELEGRAM_CHAT_ID'], text=f'{log_entry}')
 
 
 class MyBot(telegram.Bot):
