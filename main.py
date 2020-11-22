@@ -17,7 +17,8 @@ class TelegramBotLogsHandler(logging.Handler):
 
 
 class MyBot(telegram.Bot):
-    def __init__(self):
+    def __init__(self, token):
+        self.token = token
         super().__init__()
         logging.info("Бот запущен")
 
