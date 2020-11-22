@@ -11,10 +11,10 @@ class TelegramBotLogsHandler(logging.Handler, telegram.Bot):
         self.send_message(chat_id=os.environ['TELEGRAM_CHAT_ID'], text=f'{log_entry}')
 
 
-class MyBot(telegram.Bot):
+class MyBot(telegram.Bot, logging):
     def __init__(self, token):
         super().__init__(token, base_url=None, request=None, private_key=None, private_key_password=None, defaults=None)
-        logging.info("Бот запущен")
+        self.logging.info("Бот запущен")
 
 
 def main():
@@ -36,8 +36,8 @@ def main():
 
     try:
         0 / 0
-    except Exception:
-        logger.exception()
+    except Exception as err:
+        logger.exception(err)
 
     while True:
         try:
