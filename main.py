@@ -16,13 +16,6 @@ class TelegramBotLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-class MyBot(telegram.Bot):
-    def __init__(self, token):
-        self.token = token
-        super().__init__(token)
-        logging.info("Бот запущен")
-
-
 def main():
     logger = logging.getLogger("Bot Logger")
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
@@ -36,22 +29,21 @@ def main():
     }
     telegram_token = os.environ['TELEGRAM_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
-    bot = MyBot(token=telegram_token)
+    bot = telegram.Bot(token=telegram_token)
     logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
+    logger.info('Бот запущен')
 
-    try:
-        0 / 0
-    except Exception as err:
-        logger.exception(err)
 
     while True:
         try:
             response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params, timeout=91)
             response.raise_for_status()
-        except ConnectionError:
+        except ConnectionError as er:
             time.sleep(30)
+            logger.exception(er)
             continue
-        except requests.exceptions.ReadTimeout:
+        except requests.exceptions.ReadTimeout as er:
+            logger.exception(er)
             continue
         response = response.json()
         if response['status'] == 'timeout':
