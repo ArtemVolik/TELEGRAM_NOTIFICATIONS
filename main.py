@@ -20,7 +20,7 @@ class TelegramBotLogsHandler(logging.Handler):
 
 def main():
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.DEBUG)
     devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
