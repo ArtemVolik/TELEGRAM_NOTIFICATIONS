@@ -20,7 +20,7 @@ class TelegramBotLogsHandler(logging.Handler):
 
 def main():
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.WARNING)
     devman_token = os.environ['DEVMAN_TOKEN']
     headers = {
         'Authorization': devman_token
@@ -43,7 +43,7 @@ def main():
             logger.exception(er)
             continue
         except requests.exceptions.ReadTimeout as er:
-            logger.exception(er)
+            logger.debug(er)
             continue
         response = response.json()
         if response['status'] == 'timeout':
