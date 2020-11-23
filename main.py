@@ -32,7 +32,7 @@ def main():
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = telegram.Bot(token=telegram_token)
     logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
-    logger.info('Бот запущен')
+    logger.debug('Бот запущен')
 
     while True:
         try:
@@ -43,7 +43,7 @@ def main():
             logger.exception(er)
             continue
         except requests.exceptions.ReadTimeout as er:
-            logger.debug(er)
+            logger.info(er)
             continue
         response = response.json()
         if response['status'] == 'timeout':
