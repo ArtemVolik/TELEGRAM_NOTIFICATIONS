@@ -4,6 +4,8 @@ import requests
 import telegram
 import logging
 
+logger = logging.getLogger("Bot Logger")
+
 
 class TelegramBotLogsHandler(logging.Handler):
     def __init__(self, tg_bot, chat_id):
@@ -17,7 +19,6 @@ class TelegramBotLogsHandler(logging.Handler):
 
 
 def main():
-    logger = logging.getLogger("Bot Logger")
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
     logger.setLevel(logging.INFO)
     devman_token = os.environ['DEVMAN_TOKEN']
