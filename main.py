@@ -36,7 +36,7 @@ def main():
 
     while True:
         try:
-            response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params, timeout=91)
+            response = requests.get('https://dvmn.org/api/long_polling/', headers=headers, params=params, timeout=90)
             response.raise_for_status()
         except ConnectionError as er:
             time.sleep(30)
