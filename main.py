@@ -32,7 +32,7 @@ def main():
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = telegram.Bot(token=telegram_token)
     logger.addHandler(TelegramBotLogsHandler(bot, chat_id))
-    logger.debug('Бот запущен')
+    logger.debug('Информирование о курсе запущено')
 
     while True:
         try:
